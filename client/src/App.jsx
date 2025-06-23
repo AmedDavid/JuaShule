@@ -2,8 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import Login from './pages/Login'
-// import Login from './pages/Login';
-// import Signup from './pages/Signup';
+import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
 
 function App() {
@@ -17,7 +16,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               {<Route path="/login" element={<Login />} /> }
-              {/* <Route path="/signup" element={<Signup />} /> */}
+              { <Route path="/signup" element={<Signup />} /> }
             </Routes>
           </main>
           <footer className="bg-primary text-white py-4 text-center">
