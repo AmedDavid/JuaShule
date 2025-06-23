@@ -1,0 +1,26 @@
+
+idea/
+
+# Python
+server/venv/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.env
+
+# Node
+client/node_modules/
+client/dist/
+client/.env
+
+# Database
+*.sqlite3
+*.db
+
+# Misc
+.DS_Store
+*.log
