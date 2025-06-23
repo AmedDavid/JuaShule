@@ -23,7 +23,15 @@ def create_app():
     jwt.init_app(app)
     CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
+    @jwt.invalid_token_loader
+    def invalid_token_callback(error):
+        logging.error(f"Invalid token error: {str(error)}", exc_info=True)
+        return {"error": f"Invalid token: {str(error)}"}, 422
 
+    @jwt.unauthorized_loader
+    def unauthorized_callback(error):
+        logging.error(f"Unauthorized error: {str(error)}", exc_info=True)
+        return {"error": f"Unauthorized: {str(error)}"}, 401
 
     from .routes import auth, questions, resources, groups
     app.register_blueprint(auth.bp)
