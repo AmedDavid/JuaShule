@@ -2,7 +2,7 @@ function Home() {
   return (
     <>
     <section
-    className="w-full h-[70vh] bg-cover bg-center bg-no-repeat flex items-center justify-center"
+    className="w-full h-[80vh] bg-cover bg-center bg-no-repeat flex items-center justify-center"
     style={{ backgroundImage: "url('/image/library.jpg')" }} >
       
     <div className="text-center">
