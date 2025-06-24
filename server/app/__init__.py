@@ -16,7 +16,7 @@ def create_app():
     app.config['JWT_CSRF_CHECK_FORM'] = False
     app.config['JWT_CSRF_IN_COOKIES'] = False
     app.config['JWT_TOKEN_LOCATION'] = ['headers']
-    logging.basicConfig(level=logging.DEBUG)  # Enable debug logging
+    logging.basicConfig(level=logging.DEBUG)
 
     db.init_app(app)
     migrate.init_app(app, db)
