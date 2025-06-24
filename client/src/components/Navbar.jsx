@@ -15,7 +15,7 @@ function Navbar() {
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="text-2xl font-bold">JuaShule</Link>
         <div className="space-x-8">
-          <Link to="/" className="hover:text-accent transition">Home</Link>
+          <Link to="/" className=" hover:text-accent transition">Home</Link>
          
             <>
               <Link to="/questions" className="hover:text-accent transition">Questions</Link>

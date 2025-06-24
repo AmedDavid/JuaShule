@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Groups from './pages/Groups';
 import Resources from './pages/Resources';
 import Profile from './pages/Profile';
+import Questions from './pages/Questions';
 
 function App() {
   const { user } = useAuth();
@@ -23,6 +24,7 @@ function App() {
                { <Route path="/groups" element={<Groups />} /> }
                 { <Route path="/resources" element={<Resources />} /> }
                 { <Route path="/profile" element={<Profile />} /> }
+                 { <Route path="/questions" element={<Questions />} /> }
             </Routes>
           </main>
           <footer className="bg-primary text-white py-4 text-center">
