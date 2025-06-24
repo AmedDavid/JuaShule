@@ -16,7 +16,7 @@ function Navbar() {
         <Link to="/" className="text-2xl font-bold">JuaShule</Link>
         <div className="space-x-4">
           <Link to="/" className="hover:underline">Home</Link>
-          {user ? (
+         
             <>
               <Link to="/questions" className="hover:underline">Questions</Link>
               <Link to="/resources" className="hover:underline">Resources</Link>
@@ -24,12 +24,12 @@ function Navbar() {
               <Link to="/profile" className="hover:underline">Profile</Link>
               <button onClick={handleLogout} className="hover:underline">Logout</button>
             </>
-          ) : (
+          
             <>
               <Link to="/login" className="hover:underline">Login</Link>
               <Link to="/signup" className="hover:underline">Signup</Link>
             </>
-          )}
+          
         </div>
       </div>
     </nav>
