@@ -37,3 +37,30 @@ def create_group():
         db.session.rollback()
         logging.error(f"Failed to create group: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to create group: {str(e)}'}), 500
+    
+    
+
+@bp.route('/groups/<int:id>/join', methods=['PATCH'])
+@jwt_required()
+def join_group(id):
+    try:
+        group = Group.query.get_or_404(id)
+        current_user = int(get_jwt_identity())  # Convert string to integer
+        logging.info(f"Join attempt for user: {current_user}, group: {id}, creator_id: {group.creator_id}")
+        existing_membership = GroupMembership.query.filter_by(student_id=current_user, group_id=id).first()
+        logging.info(f"Existing membership found: {existing_membership is not None}")
+        if existing_membership and group.creator_id == current_user:
+            logging.info(f"User {current_user} (creator) re-joining group {id}")
+            return jsonify({'message': 'Already a member, re-joined as creator'}), 200
+        elif existing_membership:
+            logging.info(f"User {current_user} already a member of group {id}")
+            return jsonify({'error': 'Already a member'}), 400
+        membership = GroupMembership(student_id=current_user, group_id=id)
+        db.session.add(membership)
+        db.session.commit()
+        logging.info(f"User {current_user} joined group {id}")
+        return jsonify({'message': 'Joined group'}), 200
+    except Exception as e:
+        db.session.rollback()
+        logging.error(f"Failed to join group {id}: {str(e)}", exc_info=True)
+        return jsonify({'error': f'Failed to join group: {str(e)}'}), 500
