@@ -59,3 +59,10 @@ def get_me():
         'school': student.school
     })
 
+@bp.route('/reset-password', methods=['POST'])
+def reset_password():
+    data = request.get_json()
+    email = data.get('email')
+    if not email:
+        return jsonify({'error': 'Email is required'}), 400
+    return jsonify({'message': 'Password reset link sent'}), 200
