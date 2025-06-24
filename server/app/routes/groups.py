@@ -45,7 +45,7 @@ def create_group():
 def join_group(id):
     try:
         group = Group.query.get_or_404(id)
-        current_user = int(get_jwt_identity())  # Convert string to integer
+        current_user = int(get_jwt_identity())
         logging.info(f"Join attempt for user: {current_user}, group: {id}, creator_id: {group.creator_id}")
         existing_membership = GroupMembership.query.filter_by(student_id=current_user, group_id=id).first()
         logging.info(f"Existing membership found: {existing_membership is not None}")
@@ -64,3 +64,5 @@ def join_group(id):
         db.session.rollback()
         logging.error(f"Failed to join group {id}: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to join group: {str(e)}'}), 500
+    
+    

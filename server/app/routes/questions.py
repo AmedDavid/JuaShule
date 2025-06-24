@@ -74,3 +74,5 @@ def delete_question(id):
         db.session.rollback()
         logging.error(f"Failed to delete question {id}: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to delete question: {str(e)}'}), 500
+    
+    
