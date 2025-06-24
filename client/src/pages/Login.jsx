@@ -4,7 +4,7 @@ function Login(){
   className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
   style={{ backgroundImage: "url('/image/background.jpg')" }}
 >
-    <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+    <div className="bg-white p-8 rounded-xl shadow-lg w-[85%] max-w-xl">
       <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
       <form>
         <div className="mb-4">
