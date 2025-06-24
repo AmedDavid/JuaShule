@@ -47,3 +47,15 @@ def signup():
         db.session.rollback()
         return jsonify({'error': f'Database error: {str(e)}'}), 500
 
+@bp.route('/students/me', methods=['GET'])
+@jwt_required()
+def get_me():
+    student_id = get_jwt_identity()
+    student = Student.query.get_or_404(student_id)
+    return jsonify({
+        'id': student.id,
+        'username': student.username,
+        'email': student.email,
+        'school': student.school
+    })
+
