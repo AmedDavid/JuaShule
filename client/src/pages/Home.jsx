@@ -3,7 +3,7 @@ function Home() {
     <>
     <section
     className="w-full h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center"
-    style={{ backgroundImage: "url('/background.jpg')" }} >
+    style={{ backgroundImage: "url('/image/library.jpg')" }} >
       
     <div className="text-center">
       <h1 className="text-4xl font-bold text-white p-4  mb-4">Welcome to JuaShule</h1>
