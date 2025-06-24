@@ -59,3 +59,18 @@ def update_question(id):
 
 
 
+@bp.route('/questions/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_question(id):
+    try:
+        question = Question.query.get_or_404(id)
+        if question.student_id != get_jwt_identity():
+            return jsonify({'error': 'Unauthorized'}), 403
+        db.session.delete(question)
+        db.session.commit()
+        logging.info(f"Question {id} deleted by user {get_jwt_identity()}")
+        return jsonify({'message': 'Question deleted'}), 200
+    except Exception as e:
+        db.session.rollback()
+        logging.error(f"Failed to delete question {id}: {str(e)}", exc_info=True)
+        return jsonify({'error': f'Failed to delete question: {str(e)}'}), 500
