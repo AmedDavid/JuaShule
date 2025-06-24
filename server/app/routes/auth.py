@@ -25,3 +25,25 @@ def login():
             }
         })
     return jsonify({'error': 'Invalid credentials'}), 401
+
+@bp.route('/students', methods=['POST'])
+def signup():
+    data = request.get_json()
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
+    school = data.get('school')
+    if not all([username, email, password, school]):
+        return jsonify({'error': 'All fields are required'}), 400
+    if Student.query.filter_by(email=email).first():
+        return jsonify({'error': 'Email already exists'}), 400
+    student = Student(username=username, email=email, school=school)
+    student.set_password(password)
+    db.session.add(student)
+    try:
+        db.session.commit()
+        return jsonify({'message': 'Student created'}), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': f'Database error: {str(e)}'}), 500
+
