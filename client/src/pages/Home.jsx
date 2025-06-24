@@ -2,7 +2,7 @@ function Home() {
   return (
     <>
     <section
-    className="w-full h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center"
+    className="w-full h-[70vh] bg-cover bg-center bg-no-repeat flex items-center justify-center"
     style={{ backgroundImage: "url('/image/library.jpg')" }} >
       
     <div className="text-center">
@@ -11,7 +11,7 @@ function Home() {
       </div>
       </section>
       <section className="py-16 bg-gray-50">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4 md:px-10">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold text-secondary">Ask Questions</h2>
           <p>Post and answer academic questions in subjects like Maths and Kiswahili.</p>
