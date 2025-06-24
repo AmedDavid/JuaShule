@@ -9,7 +9,7 @@ export default {
       colors: {
         primary: "#2E7D32", // Green
         secondary: "#D32F2F", // Red
-        accent: "#FFD54F", // Yellow
+        accent: "##a16207", // Yellow
         neutral: "#263238", // Yellow
         light: "#F5F6F5", // light
       },
