@@ -17,3 +17,20 @@ def get_questions():
     except Exception as e:
         logging.error(f"Failed to fetch questions: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to fetch questions: {str(e)}'}), 500
+
+@bp.route('/questions', methods=['POST'])
+@jwt_required()
+def create_question():
+    try:
+        data = request.get_json()
+        if not data or not data.get('subject') or not data.get('content'):
+            return jsonify({'error': 'Subject and content are required'}), 400
+        question = Question(student_id=get_jwt_identity(), subject=data['subject'], content=data['content'])
+        db.session.add(question)
+        db.session.commit()
+        logging.info(f"Question created by user {get_jwt_identity()}: {data}")
+        return jsonify({'message': 'Question created', 'question': {'id': question.id, 'subject': question.subject, 'content': question.content}}), 201
+    except Exception as e:
+        db.session.rollback()
+        logging.error(f"Failed to create question: {str(e)}", exc_info=True)
+        return jsonify({'error': f'Failed to create question: {str(e)}'}), 500
