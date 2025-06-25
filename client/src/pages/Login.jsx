@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function Login(){
    return (
   <div
@@ -15,6 +17,11 @@ function Login(){
           <label className="block text-gray-700 mb-1">Password</label>
           <input type="password" className="w-full border rounded px-4 py-2" />
         </div>
+          <div className="mb-6 text-right">
+            <Link to="/resetpassword" className="text-sm text-primary hover:underline">
+              Forgot Password?
+            </Link>
+          </div>
         <button type="submit" className="w-full bg-primary text-white py-2 rounded">
           Login
         </button>
