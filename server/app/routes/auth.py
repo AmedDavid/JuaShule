@@ -37,6 +37,8 @@ def signup():
         return jsonify({'error': 'All fields are required'}), 400
     if Student.query.filter_by(email=email).first():
         return jsonify({'error': 'Email already exists'}), 400
+    if Student.query.filter_by(username=username).first():
+        return jsonify({'error': 'Username already exists'}), 400
     student = Student(username=username, email=email, school=school)
     student.set_password(password)
     db.session.add(student)
@@ -45,7 +47,7 @@ def signup():
         return jsonify({'message': 'Student created'}), 201
     except Exception as e:
         db.session.rollback()
-        return jsonify({'error': f'Database error: {str(e)}'}), 500
+        return jsonify({'error': 'Database error'}), 500
 
 @bp.route('/students/me', methods=['GET'])
 @jwt_required()
