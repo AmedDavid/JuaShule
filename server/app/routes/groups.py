@@ -90,3 +90,32 @@ def update_group(id):
         return jsonify({'error': f'Failed to update group: {str(e)}'}), 500
 
 
+@bp.route('/groups/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_group(id):
+    try:
+        current_user = int(get_jwt_identity())
+        logging.info(f"Delete attempt for group {id} by user {current_user}")
+        group = Group.query.get_or_404(id)
+        logging.info(f"Group found: id={group.id}, creator_id={group.creator_id}, name={group.name}")
+        membership = GroupMembership.query.filter_by(student_id=current_user, group_id=id).first()
+        if not membership:
+            logging.warning(f"Unauthorized: User {current_user} is not a member of group {id}")
+            return jsonify({'error': 'Unauthorized: You must be a member to leave or delete the group'}), 403
+        if group.creator_id == current_user:
+            logging.info(f"Creator {current_user} deleting group {id}")
+            db.session.delete(group)
+            db.session.commit()
+            logging.info(f"Group {id} deleted by creator {current_user}")
+            return jsonify({'message': 'Group deleted'}), 200
+        else:
+            logging.info(f"Member {current_user} leaving group {id}")
+            db.session.delete(membership)
+            db.session.commit()
+            logging.info(f"User {current_user} left group {id}")
+            return jsonify({'message': 'Left group'}), 200
+    except Exception as e:
+        db.session.rollback()
+        logging.error(f"Failed to delete group {id}: {str(e)}", exc_info=True)
+        return jsonify({'error': f'Failed to delete group: {str(e)}'}), 500
+    
