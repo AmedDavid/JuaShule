@@ -104,6 +104,8 @@ def delete_group(id):
             return jsonify({'error': 'Unauthorized: You must be a member to leave or delete the group'}), 403
         if group.creator_id == current_user:
             logging.info(f"Creator {current_user} deleting group {id}")
+            # Delete all memberships first to avoid foreign key constraint
+            GroupMembership.query.filter_by(group_id=id).delete()
             db.session.delete(group)
             db.session.commit()
             logging.info(f"Group {id} deleted by creator {current_user}")
