@@ -60,3 +60,19 @@ def update_resource(id):
         logging.error(f"Failed to update resource {id}: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to update resource: {str(e)}'}), 500
 
+@bp.route('/resources/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_resource(id):
+    try:
+        current_user = get_jwt_identity()
+        resource = Resource.query.get_or_404(id)
+        if resource.student_id != current_user:
+            return jsonify({'error': 'Unauthorized: You can only delete your own resources'}), 403
+        db.session.delete(resource)
+        db.session.commit()
+        logging.info(f"Resource {id} deleted by user {current_user}")
+        return jsonify({'message': 'Resource deleted'}), 200
+    except Exception as e:
+        db.session.rollback()
+        logging.error(f"Failed to delete resource {id}: {str(e)}", exc_info=True)
+        return jsonify({'error': f'Failed to delete resource: {str(e)}'}), 500
