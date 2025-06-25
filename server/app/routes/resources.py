@@ -38,3 +38,25 @@ def create_resource():
         db.session.rollback()
         logging.error(f"Failed to create resource: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to create resource: {str(e)}'}), 500
+
+@bp.route('/resources/<int:id>', methods=['PUT'])
+@jwt_required()
+def update_resource(id):
+    try:
+        current_user = get_jwt_identity()
+        resource = Resource.query.get_or_404(id)
+        if resource.student_id != current_user:
+            return jsonify({'error': 'Unauthorized: You can only update your own resources'}), 403
+        data = request.get_json()
+        if not data or not data.get('title') or not data.get('file_url'):
+            return jsonify({'error': 'Title and file_url are required'}), 400
+        resource.title = data['title']
+        resource.file_url = data['file_url']
+        db.session.commit()
+        logging.info(f"Resource {id} updated by user {current_user}: {data}")
+        return jsonify({'message': 'Resource updated', 'resource': {'id': resource.id, 'title': resource.title, 'file_url': resource.file_url}}), 200
+    except Exception as e:
+        db.session.rollback()
+        logging.error(f"Failed to update resource {id}: {str(e)}", exc_info=True)
+        return jsonify({'error': f'Failed to update resource: {str(e)}'}), 500
+
