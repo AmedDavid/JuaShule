@@ -33,10 +33,11 @@ def create_app():
         logging.error(f"Unauthorized error: {str(error)}", exc_info=True)
         return {"error": f"Unauthorized: {str(error)}"}, 401
 
-    from .routes import auth, questions, resources, groups
+    from .routes import auth, questions, resources, groups, profiles
     app.register_blueprint(auth.bp)
     app.register_blueprint(questions.bp)
     app.register_blueprint(resources.bp)
     app.register_blueprint(groups.bp)
+    app.register_blueprint(profiles.bp)
 
     return app
