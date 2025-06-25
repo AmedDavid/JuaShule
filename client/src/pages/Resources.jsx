@@ -2,7 +2,7 @@ function Resources(){
    return (
   <div
   className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
-  style={{ backgroundImage: "url('/image/lib.jpg')" }}
+  style={{ backgroundImage: "url('/image/grouplib.jpg')" }}
 >
     <div className="bg-white p-10 rounded-2xl shadow-lg  w-[85%] max-w-4xl">
       <h2 className="text-2xl font-bold mb-6 ">Share a resource</h2>
