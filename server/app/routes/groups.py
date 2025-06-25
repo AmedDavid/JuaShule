@@ -37,8 +37,6 @@ def create_group():
         db.session.rollback()
         logging.error(f"Failed to create group: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to create group: {str(e)}'}), 500
-    
-    
 
 @bp.route('/groups/<int:id>/join', methods=['PATCH'])
 @jwt_required()
@@ -64,5 +62,31 @@ def join_group(id):
         db.session.rollback()
         logging.error(f"Failed to join group {id}: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to join group: {str(e)}'}), 500
-    
-    
+
+@bp.route('/groups/<int:id>', methods=['PUT'])
+@jwt_required()
+def update_group(id):
+    try:
+        current_user = int(get_jwt_identity())
+        logging.info(f"Update attempt for group {id} by user {current_user}")
+        group = Group.query.get_or_404(id)
+        logging.info(f"Group found: id={group.id}, creator_id={group.creator_id}, name={group.name}")
+        if group.creator_id != current_user:
+            logging.warning(f"Unauthorized: Group {id} creator_id {group.creator_id} != current_user {current_user}")
+            return jsonify({'error': 'Unauthorized: Only the creator can update the group'}), 403
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+        if 'name' in data and not data['name']:
+            return jsonify({'error': 'Name is required'}), 400
+        group.name = data.get('name', group.name)
+        group.description = data.get('description', group.description)
+        db.session.commit()
+        logging.info(f"Group {id} updated by user {current_user}")
+        return jsonify({'message': 'Group updated', 'group': {'id': group.id, 'name': group.name, 'description': group.description}}), 200
+    except Exception as e:
+        db.session.rollback()
+        logging.error(f"Failed to update group {id}: {str(e)}", exc_info=True)
+        return jsonify({'error': f'Failed to update group: {str(e)}'}), 500
+
+
