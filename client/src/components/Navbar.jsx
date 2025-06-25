@@ -14,22 +14,22 @@ function Navbar() {
     <nav className="bg-primary text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="text-2xl font-bold">JuaShule</Link>
-        <div className="space-x-4">
-          <Link to="/" className="hover:underline">Home</Link>
-          {user ? (
+        <div className="space-x-8">
+          <Link to="/" className=" hover:text-accent transition">Home</Link>
+         
             <>
-              <Link to="/questions" className="hover:underline">Questions</Link>
-              <Link to="/resources" className="hover:underline">Resources</Link>
-              <Link to="/groups" className="hover:underline">Groups</Link>
-              <Link to="/profile" className="hover:underline">Profile</Link>
-              <button onClick={handleLogout} className="hover:underline">Logout</button>
+              <Link to="/questions" className="hover:text-accent transition">Questions</Link>
+              <Link to="/resources" className="hover:text-accent transition">Resources</Link>
+              <Link to="/groups" className="hover:text-accent transition">Groups</Link>
+              <Link to="/profile" className="hover:text-accent transition">Profile</Link>
+              <button onClick={handleLogout} className="hover:text-accent transition">Logout</button>
             </>
-          ) : (
+          
             <>
-              <Link to="/login" className="hover:underline">Login</Link>
-              <Link to="/signup" className="hover:underline">Signup</Link>
+              <Link to="/login" className="hover:text-accent transition">Login</Link>
+              <Link to="/signup" className="hover:text-accent transition">Signup</Link>
             </>
-          )}
+          
         </div>
       </div>
     </nav>
