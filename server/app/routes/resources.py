@@ -43,7 +43,7 @@ def create_resource():
 @jwt_required()
 def update_resource(id):
     try:
-        current_user = int(get_jwt_identity())  # Ensure integer comparison
+        current_user = int(get_jwt_identity())
         logging.info(f"Update attempt for resource {id} by user {current_user}")
         resource = Resource.query.get_or_404(id)
         logging.info(f"Resource found: id={resource.id}, student_id={resource.student_id}, title={resource.title}")
@@ -67,7 +67,7 @@ def update_resource(id):
 @jwt_required()
 def delete_resource(id):
     try:
-        current_user = int(get_jwt_identity())  # Ensure integer comparison
+        current_user = int(get_jwt_identity())
         logging.info(f"Delete attempt for resource {id} by user {current_user}")
         resource = Resource.query.get_or_404(id)
         logging.info(f"Resource found: id={resource.id}, student_id={resource.student_id}, title={resource.title}")

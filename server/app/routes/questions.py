@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from .. import db
 from ..models.question import Question
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import jwt_required, get_jwt_identity
 import logging
 
 bp = Blueprint('questions', __name__, url_prefix='/api')
@@ -35,40 +35,51 @@ def create_question():
         logging.error(f"Failed to create question: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to create question: {str(e)}'}), 500
     
-    
 
 @bp.route('/questions/<int:id>', methods=['PUT'])
 @jwt_required()
 def update_question(id):
     try:
+        current_user = int(get_jwt_identity())
+        logging.info(f"Update attempt for question {id} by user {current_user}")
         question = Question.query.get_or_404(id)
-        if question.student_id != get_jwt_identity():
-            return jsonify({'error': 'Unauthorized'}), 403
+        logging.info(f"Question found: id={question.id}, student_id={question.student_id}, subject={question.subject}")
+        if question.student_id != current_user:
+            logging.warning(f"Unauthorized: Question {id} student_id {question.student_id} != current_user {current_user}")
+            return jsonify({'error': 'Unauthorized: You can only update your own questions'}), 403
         data = request.get_json()
         if not data:
             return jsonify({'error': 'No data provided'}), 400
+        if 'subject' in data and not data['subject']:
+            return jsonify({'error': 'Subject is required'}), 400
+        if 'content' in data and not data['content']:
+            return jsonify({'error': 'Content is required'}), 400
         question.subject = data.get('subject', question.subject)
         question.content = data.get('content', question.content)
         db.session.commit()
-        logging.info(f"Question {id} updated by user {get_jwt_identity()}")
-        return jsonify({'message': 'Question updated'}), 200
+        logging.info(f"Question {id} updated by user {current_user}")
+        return jsonify({'message': 'Question updated', 'question': {'id': question.id, 'subject': question.subject, 'content': question.content}}), 200
     except Exception as e:
         db.session.rollback()
         logging.error(f"Failed to update question {id}: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to update question: {str(e)}'}), 500
-
-
+    
+    
 
 @bp.route('/questions/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_question(id):
     try:
+        current_user = int(get_jwt_identity())
+        logging.info(f"Delete attempt for question {id} by user {current_user}")
         question = Question.query.get_or_404(id)
-        if question.student_id != get_jwt_identity():
-            return jsonify({'error': 'Unauthorized'}), 403
+        logging.info(f"Question found: id={question.id}, student_id={question.student_id}, subject={question.subject}")
+        if question.student_id != current_user:
+            logging.warning(f"Unauthorized: Question {id} student_id {question.student_id} != current_user {current_user}")
+            return jsonify({'error': 'Unauthorized: You can only delete your own questions'}), 403
         db.session.delete(question)
         db.session.commit()
-        logging.info(f"Question {id} deleted by user {get_jwt_identity()}")
+        logging.info(f"Question {id} deleted by user {current_user}")
         return jsonify({'message': 'Question deleted'}), 200
     except Exception as e:
         db.session.rollback()
