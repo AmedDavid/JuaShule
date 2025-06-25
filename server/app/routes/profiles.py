@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify
-from .. import db
+from .. import db, mail
 from ..models.student import Student
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_mail import Message
 import logging
+import uuid
 
 bp = Blueprint('profiles', __name__, url_prefix='/api/profile')
 
@@ -24,7 +26,7 @@ def get_profile():
     except Exception as e:
         logging.error(f"Failed to fetch profile: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to fetch profile: {str(e)}'}), 500
-
+    
 
 @bp.route('', methods=['PUT'])
 @jwt_required()
@@ -92,5 +94,37 @@ def update_password():
         db.session.rollback()
         logging.error(f"Failed to update password for user {current_user_id}: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to update password: {str(e)}'}), 500
-    
+
+
+@bp.route('/reset-password', methods=['POST'])
+def reset_password_request():
+    try:
+        data = request.get_json()
+        if not data or 'email' not in data:
+            return jsonify({'error': 'Email is required'}), 400
+        email = data['email']
+        student = Student.query.filter_by(email=email).first()
+        if not student:
+            return jsonify({'error': 'No account found with that email'}), 404
+        # Generate a reset token (using UUID for simplicity; in production, use JWT with expiration)
+        reset_token = str(uuid.uuid4())
+        logging.info(f"Generated reset token {reset_token} for user {student.id}")
+        # Send reset email
+        msg = Message('Password Reset Request', sender='davidwize189@gmail.com', recipients=[email])
+        msg.body = f"""Dear {student.username},
+
+You requested a password reset. Please click the link below to reset your password:
+http://localhost:3000/reset-password?token={reset_token}
+
+If you did not request this, please ignore this email.
+
+Best,
+JuaShule Team
+"""
+        mail.send(msg)
+        logging.info(f"Reset email sent to {email} for user {student.id}")
+        return jsonify({'message': 'Password reset email sent'}), 200
+    except Exception as e:
+        logging.error(f"Failed to process password reset for email {data.get('email')}: {str(e)}", exc_info=True)
+        return jsonify({'error': f'Failed to process password reset: {str(e)}'}), 500
     
