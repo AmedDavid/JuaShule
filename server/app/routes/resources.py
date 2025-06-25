@@ -43,9 +43,12 @@ def create_resource():
 @jwt_required()
 def update_resource(id):
     try:
-        current_user = get_jwt_identity()
+        current_user = int(get_jwt_identity())  # Ensure integer comparison
+        logging.info(f"Update attempt for resource {id} by user {current_user}")
         resource = Resource.query.get_or_404(id)
+        logging.info(f"Resource found: id={resource.id}, student_id={resource.student_id}, title={resource.title}")
         if resource.student_id != current_user:
+            logging.warning(f"Unauthorized: Resource {id} student_id {resource.student_id} != current_user {current_user}")
             return jsonify({'error': 'Unauthorized: You can only update your own resources'}), 403
         data = request.get_json()
         if not data or not data.get('title') or not data.get('file_url'):
@@ -64,9 +67,12 @@ def update_resource(id):
 @jwt_required()
 def delete_resource(id):
     try:
-        current_user = get_jwt_identity()
+        current_user = int(get_jwt_identity())  # Ensure integer comparison
+        logging.info(f"Delete attempt for resource {id} by user {current_user}")
         resource = Resource.query.get_or_404(id)
+        logging.info(f"Resource found: id={resource.id}, student_id={resource.student_id}, title={resource.title}")
         if resource.student_id != current_user:
+            logging.warning(f"Unauthorized: Resource {id} student_id {resource.student_id} != current_user {current_user}")
             return jsonify({'error': 'Unauthorized: You can only delete your own resources'}), 403
         db.session.delete(resource)
         db.session.commit()
