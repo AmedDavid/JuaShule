@@ -36,7 +36,7 @@ juashule/
 2. Install dependencies: `npm install`
 3. Set up environment variables in `client/.env`:
    ```
-   VITE_API_URL=http://localhost:5000/api
+   VITE_API_URL=https://juashule.onrender.com/api
    ```
 4. Run the app: `npm run dev`
 
