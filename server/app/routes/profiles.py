@@ -70,3 +70,27 @@ def update_profile():
         logging.error(f"Failed to update profile {current_user_id}: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to update profile: {str(e)}'}), 500
 
+@bp.route('/password', methods=['PATCH'])
+@jwt_required()
+def update_password():
+    try:
+        current_user_id = int(get_jwt_identity())
+        logging.info(f"Password update attempt for user: {current_user_id}")
+        student = Student.query.get_or_404(current_user_id)
+        data = request.get_json()
+        if not data or 'current_password' not in data or 'new_password' not in data:
+            return jsonify({'error': 'Current password and new password are required'}), 400
+        if not student.check_password(data['current_password']):
+            return jsonify({'error': 'Current password is incorrect'}), 400
+        if len(data['new_password']) < 6:
+            return jsonify({'error': 'New password must be at least 6 characters'}), 400
+        student.set_password(data['new_password'])
+        db.session.commit()
+        logging.info(f"Password updated for user {current_user_id}")
+        return jsonify({'message': 'Password updated'}), 200
+    except Exception as e:
+        db.session.rollback()
+        logging.error(f"Failed to update password for user {current_user_id}: {str(e)}", exc_info=True)
+        return jsonify({'error': f'Failed to update password: {str(e)}'}), 500
+    
+    
