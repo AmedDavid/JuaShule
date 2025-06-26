@@ -20,6 +20,12 @@ const navLinks = [
   { to: '/groups', label: 'Groups' },
 ];
 
+const protectedLinks = [
+  { to: '/questions', label: 'Questions' },
+  { to: '/resources', label: 'Resources' },
+  { to: '/groups', label: 'Groups' },
+];
+
 function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -42,7 +48,18 @@ function Navbar() {
         <Link to="/" className="text-2xl font-bold tracking-tight hover:opacity-80 transition">JuaShule</Link>
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-2 md:gap-4">
-          {navLinks.map(link => (
+          <Link
+            key="/"
+            to="/"
+            className={`px-3 py-1.5 rounded-md transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-primary/60
+              ${isActive('/')
+                ? 'bg-white/90 text-primary dark:bg-zinc-900/80 dark:text-accent-200 shadow'
+                : 'hover:bg-white/30 hover:text-white/90 dark:hover:bg-zinc-900/40 dark:hover:text-accent-100 text-primary-foreground/90'}
+            `}
+          >
+            Home
+          </Link>
+          {user && protectedLinks.map(link => (
             <Link
               key={link.to}
               to={link.to}
@@ -110,22 +127,28 @@ function Navbar() {
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              {navLinks.map(link => (
-                <DropdownMenuItem asChild key={link.to}>
-                  <Link
-                    to={link.to}
-                    onClick={() => setMobileOpen(false)}
-                    className={isActive(link.to) ? 'font-semibold text-primary' : ''}
-                  >
-                    {link.label}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
               {user ? (
                 <>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => { navigate('/profile'); setMobileOpen(false); }}>
-                    Profile
+                  {protectedLinks.map(link => (
+                    <DropdownMenuItem asChild key={link.to}>
+                      <Link
+                        to={link.to}
+                        onClick={() => setMobileOpen(false)}
+                        className={isActive(link.to) ? 'font-semibold text-primary' : ''}
+                      >
+                        {link.label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </>
+              ) : null}
+              <DropdownMenuItem asChild>
+                <Link to="/" onClick={() => setMobileOpen(false)} className={isActive('/') ? 'font-semibold text-primary' : ''}>Home</Link>
+              </DropdownMenuItem>
+              {user ? (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" onClick={() => setMobileOpen(false)}>Profile</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => { handleLogout(); setMobileOpen(false); }} className="text-red-600 focus:text-red-700">
                     Logout
