@@ -114,7 +114,7 @@ def reset_password_request():
         msg.body = f"""Dear {student.username},
 
 You requested a password reset. Please click the link below to reset your password:
-http://localhost:3000/reset-password?token={reset_token}
+https://jua-shule.vercel.app/reset-password?token={reset_token}
 
 If you did not request this, please ignore this email.
 
