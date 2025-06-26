@@ -126,16 +126,16 @@ function Groups() {
     return user && (user.id === g.creator_id || memberships.includes(g.id));
   };
 
-  return (
-    <div
+   return (
+  <div
       className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/image/groups.jpg')" }}
-    >
+  style={{ backgroundImage: "url('/image/groups.jpg')" }}
+>
       <div className="bg-white p-10 rounded-2xl shadow-lg w-[85%] max-w-4xl mb-8">
         <h2 className="text-2xl font-bold mb-6 ">{editingId ? 'Edit Group' : 'Create a Group'}</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-1">Group Name</label>
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-1">Group Name</label>
             <input
               type="text"
               name="name"
@@ -144,9 +144,9 @@ function Groups() {
               className="w-full border rounded px-4 py-2"
               required
             />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-1">Group Description</label>
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 mb-1">Group Description</label>
             <input
               type="text"
               name="description"
@@ -154,7 +154,7 @@ function Groups() {
               onChange={handleChange}
               className="w-full border rounded px-4 py-2"
             />
-          </div>
+        </div>
           <div className="flex space-x-2">
             <button
               type="submit"
@@ -170,10 +170,10 @@ function Groups() {
                 onClick={handleCancelEdit}
               >
                 Cancel
-              </button>
+        </button>
             )}
           </div>
-        </form>
+      </form>
       </div>
       <div className="bg-white p-8 rounded-2xl shadow-lg w-[85%] max-w-4xl">
         <h3 className="text-xl font-bold mb-4">All Groups</h3>
@@ -231,7 +231,7 @@ function Groups() {
           </ul>
         )}
       </div>
-    </div>
-  );
+  </div>
+);
 }
 export default Groups;
