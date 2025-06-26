@@ -1,17 +1,19 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useContext } from 'react';
+import { toast } from '../hooks/use-toast';
 
 const MessageContext = createContext();
 
 export function MessageProvider({ children }) {
-  const [message, setMessage] = useState(null);
-
+  // showMessage now uses shadcn/ui toast
   const showMessage = (text, type = 'success') => {
-    setMessage({ text, type });
-    setTimeout(() => setMessage(null), 3000); // Auto-clear after 3 seconds
+    toast({
+      title: text,
+      variant: type === 'error' ? 'destructive' : 'default',
+    });
   };
 
   return (
-    <MessageContext.Provider value={{ message, showMessage }}>
+    <MessageContext.Provider value={{ showMessage }}>
       {children}
     </MessageContext.Provider>
   );

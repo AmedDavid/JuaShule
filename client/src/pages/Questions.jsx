@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useMessage } from '../context/MessageContext';
 import api from '../utils/api';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card';
+import { Button } from '../components/ui/button';
 
 function Questions() {
   const { user } = useAuth();
@@ -74,86 +76,73 @@ function Questions() {
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/image/students.jpg')" }}
-    >
-      <div className="bg-white p-10 rounded-2xl shadow-lg w-[85%] max-w-4xl mb-8">
-        <h2 className="text-2xl font-bold mb-6 ">{editingId ? 'Edit Question' : 'Ask a Question'}</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-1">Subject</label>
-            <input
-              type="text"
-              name="subject"
-              value={form.subject}
-              onChange={handleChange}
-              className="w-full border rounded px-4 py-2"
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-1">Your Question</label>
-            <input
-              type="text"
-              name="content"
-              value={form.content}
-              onChange={handleChange}
-              className="w-full border rounded px-4 py-2"
-              required
-            />
-          </div>
-          <div className="flex space-x-2">
-            <button
-              type="submit"
-              className="w-[30%] bg-primary text-white py-2 rounded"
-              disabled={loading}
-            >
-              {editingId ? (loading ? 'Updating...' : 'Update') : (loading ? 'Posting...' : 'Post Question')}
-            </button>
-            {editingId && (
-              <button
-                type="button"
-                className="w-[30%] bg-gray-400 text-white py-2 rounded"
-                onClick={handleCancelEdit}
-              >
-                Cancel
-              </button>
-            )}
-          </div>
-        </form>
-      </div>
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-[85%] max-w-4xl">
-        <h3 className="text-xl font-bold mb-4">All Questions</h3>
-        {questions.length === 0 ? (
-          <p className="text-gray-500">No questions yet.</p>
-        ) : (
-          <ul className="space-y-4">
-            {questions.map((q) => (
-              <li key={q.id} className="border-b pb-4">
-                <div className="font-semibold">{q.subject}</div>
-                <div className="mb-2">{q.content}</div>
-                {user && user.id === q.student_id && (
-                  <div className="space-x-2">
-                    <button
-                      className="text-blue-600 hover:underline"
-                      onClick={() => handleEdit(q)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="text-red-600 hover:underline"
-                      onClick={() => handleDelete(q.id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat dark:bg-black/80" style={{ backgroundImage: "url('/image/students.jpg')" }}>
+      <Card className="w-[95%] max-w-2xl mb-8 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-lg rounded-2xl p-8">
+        <CardHeader>
+          <CardTitle className="text-zinc-800 dark:text-zinc-100">{editingId ? 'Edit Question' : 'Ask a Question'}</CardTitle>
+          <CardDescription className="text-zinc-500 dark:text-zinc-400">{editingId ? 'Update your question details.' : 'Post a new academic question for the community.'}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-200">Subject</label>
+              <input
+                type="text"
+                name="subject"
+                value={form.subject}
+                onChange={handleChange}
+                className="w-full border border-zinc-200 dark:border-zinc-700 rounded-lg px-4 py-2 bg-zinc-100 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-200">Your Question</label>
+              <textarea
+                name="content"
+                value={form.content}
+                onChange={handleChange}
+                rows={3}
+                className="w-full border border-zinc-200 dark:border-zinc-700 rounded-lg px-4 py-2 bg-zinc-100 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                required
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button type="submit" disabled={loading} className="w-40">
+                {editingId ? (loading ? 'Updating...' : 'Update') : (loading ? 'Posting...' : 'Post Question')}
+              </Button>
+              {editingId && (
+                <Button type="button" variant="secondary" onClick={handleCancelEdit} className="w-32">Cancel</Button>
+              )}
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+      <Card className="w-[95%] max-w-2xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-lg rounded-2xl p-8">
+        <CardHeader>
+          <CardTitle className="text-zinc-800 dark:text-zinc-100">All Questions</CardTitle>
+          <CardDescription className="text-zinc-500 dark:text-zinc-400">Browse, edit, or delete your questions.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {questions.length === 0 ? (
+            <p className="text-zinc-500 dark:text-zinc-400">No questions yet.</p>
+          ) : (
+            <ul className="space-y-6">
+              {questions.map((q) => (
+                <li key={q.id} className="border-b border-zinc-100 dark:border-zinc-700 pb-4 last:border-b-0">
+                  <div className="font-semibold text-lg text-zinc-800 dark:text-zinc-100">{q.subject}</div>
+                  <div className="mb-2 text-zinc-500 dark:text-zinc-400">{q.content}</div>
+                  {user && user.id === q.student_id && (
+                    <div className="flex flex-wrap gap-2 items-center mt-2">
+                      <Button variant="outline" size="sm" onClick={() => handleEdit(q)}>Edit</Button>
+                      <Button variant="destructive" size="sm" onClick={() => handleDelete(q.id)}>Delete</Button>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

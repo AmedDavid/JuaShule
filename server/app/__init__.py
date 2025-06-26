@@ -24,7 +24,7 @@ def create_app():
     migrate.init_app(app, db)
     jwt.init_app(app)
     mail.init_app(app)
-    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+    CORS(app, resources={r"/api/*": {"origins": ["https://jua-shule.vercel.app", "http://localhost:3000", "http://127.0.0.1:3000"]}})
 
     @jwt.invalid_token_loader
     def invalid_token_callback(error):
