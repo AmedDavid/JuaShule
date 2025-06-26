@@ -1,4 +1,5 @@
 from .. import db
+from .student import Student
 
 class Group(db.Model):
     __tablename__ = 'groups'
