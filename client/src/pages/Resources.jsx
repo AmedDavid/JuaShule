@@ -72,16 +72,16 @@ function Resources() {
     setEditingId(null);
   };
 
-  return (
-    <div
+   return (
+  <div
       className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/image/grouplib.jpg')" }}
-    >
+  style={{ backgroundImage: "url('/image/grouplib.jpg')" }}
+>
       <div className="bg-white p-10 rounded-2xl shadow-lg w-[85%] max-w-4xl mb-8">
         <h2 className="text-2xl font-bold mb-6 ">{editingId ? 'Edit Resource' : 'Share a resource'}</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-1">Resource Title</label>
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-1">Resource Title</label>
             <input
               type="text"
               name="title"
@@ -90,9 +90,9 @@ function Resources() {
               className="w-full border rounded px-4 py-2"
               required
             />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-1">File URL</label>
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 mb-1">File URL</label>
             <input
               type="text"
               name="file_url"
@@ -101,7 +101,7 @@ function Resources() {
               className="w-full border rounded px-4 py-2"
               required
             />
-          </div>
+        </div>
           <div className="flex space-x-2">
             <button
               type="submit"
@@ -117,11 +117,11 @@ function Resources() {
                 onClick={handleCancelEdit}
               >
                 Cancel
-              </button>
+        </button>
             )}
           </div>
-        </form>
-      </div>
+      </form>
+    </div>
       <div className="bg-white p-8 rounded-2xl shadow-lg w-[85%] max-w-4xl">
         <h3 className="text-xl font-bold mb-4">All Resources</h3>
         {resources.length === 0 ? (
@@ -157,7 +157,7 @@ function Resources() {
           </ul>
         )}
       </div>
-    </div>
-  );
+  </div>
+);
 }
 export default Resources;

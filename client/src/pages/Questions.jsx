@@ -73,16 +73,16 @@ function Questions() {
     setEditingId(null);
   };
 
-  return (
-    <div
+   return (
+  <div
       className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/image/students.jpg')" }}
-    >
+  style={{ backgroundImage: "url('/image/students.jpg')" }}
+>
       <div className="bg-white p-10 rounded-2xl shadow-lg w-[85%] max-w-4xl mb-8">
         <h2 className="text-2xl font-bold mb-6 ">{editingId ? 'Edit Question' : 'Ask a Question'}</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-1">Subject</label>
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-1">Subject</label>
             <input
               type="text"
               name="subject"
@@ -91,9 +91,9 @@ function Questions() {
               className="w-full border rounded px-4 py-2"
               required
             />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-1">Your Question</label>
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 mb-1">Your Question</label>
             <input
               type="text"
               name="content"
@@ -102,7 +102,7 @@ function Questions() {
               className="w-full border rounded px-4 py-2"
               required
             />
-          </div>
+        </div>
           <div className="flex space-x-2">
             <button
               type="submit"
@@ -118,11 +118,11 @@ function Questions() {
                 onClick={handleCancelEdit}
               >
                 Cancel
-              </button>
+        </button>
             )}
           </div>
-        </form>
-      </div>
+      </form>
+    </div>
       <div className="bg-white p-8 rounded-2xl shadow-lg w-[85%] max-w-4xl">
         <h3 className="text-xl font-bold mb-4">All Questions</h3>
         {questions.length === 0 ? (
@@ -154,7 +154,7 @@ function Questions() {
           </ul>
         )}
       </div>
-    </div>
-  );
+  </div>
+);
 }
 export default Questions;

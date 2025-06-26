@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useMessage } from '../context/MessageContext';
 import api from '../utils/api';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card';
+import { Button } from '../components/ui/button';
 
 function Groups() {
   const { user } = useAuth();
@@ -126,112 +128,89 @@ function Groups() {
     return user && (user.id === g.creator_id || memberships.includes(g.id));
   };
 
-   return (
-  <div
-      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat"
-  style={{ backgroundImage: "url('/image/groups.jpg')" }}
->
-      <div className="bg-white p-10 rounded-2xl shadow-lg w-[85%] max-w-4xl mb-8">
-        <h2 className="text-2xl font-bold mb-6 ">{editingId ? 'Edit Group' : 'Create a Group'}</h2>
-        <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-1">Group Name</label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              className="w-full border rounded px-4 py-2"
-              required
-            />
-        </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 mb-1">Group Description</label>
-            <input
-              type="text"
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-              className="w-full border rounded px-4 py-2"
-            />
-        </div>
-          <div className="flex space-x-2">
-            <button
-              type="submit"
-              className="w-[30%] bg-primary text-white py-2 rounded"
-              disabled={loading}
-            >
-              {editingId ? (loading ? 'Updating...' : 'Update') : (loading ? 'Creating...' : 'Create Group')}
-            </button>
-            {editingId && (
-              <button
-                type="button"
-                className="w-[30%] bg-gray-400 text-white py-2 rounded"
-                onClick={handleCancelEdit}
-              >
-                Cancel
-        </button>
-            )}
-          </div>
-      </form>
-      </div>
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-[85%] max-w-4xl">
-        <h3 className="text-xl font-bold mb-4">All Groups</h3>
-        {groups.length === 0 ? (
-          <p className="text-gray-500">No groups yet.</p>
-        ) : (
-          <ul className="space-y-4">
-            {groups.map((g) => (
-              <li key={g.id} className="border-b pb-4">
-                <div className="font-semibold">{g.name}</div>
-                <div className="mb-2">{g.description}</div>
-                {groupMembers[g.id] && (
-                  <div className="text-sm text-gray-600 mb-2">
-                    Members: {groupMembers[g.id].map(m => m.username).join(', ')}
-                  </div>
-                )}
-                {user && user.id === g.creator_id && (
-                  <div className="space-x-2">
-                    <span className="text-green-700 font-semibold">You are the creator</span>
-                    <button
-                      className="text-blue-600 hover:underline"
-                      onClick={() => handleEdit(g)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="text-red-600 hover:underline"
-                      onClick={() => handleDelete(g.id, true)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
-                {user && user.id !== g.creator_id && isMember(g) && (
-                  <div className="space-x-2">
-                    <span className="text-green-700 font-semibold">You are a member</span>
-                    <button
-                      className="text-yellow-600 hover:underline"
-                      onClick={() => handleDelete(g.id, false)}
-                    >
-                      Leave
-                    </button>
-                  </div>
-                )}
-                {user && !isMember(g) && (
-                  <button
-                    className="text-green-600 hover:underline"
-                    onClick={() => handleJoin(g.id)}
-                  >
-                    Join
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-  </div>
-);
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat dark:bg-black/80" style={{ backgroundImage: "url('/image/groups.jpg')" }}>
+      <Card className="w-[90%] max-w-2xl mb-8 bg-white/90 dark:bg-zinc-900/90 shadow-xl">
+        <CardHeader>
+          <CardTitle>{editingId ? 'Edit Group' : 'Create a Group'}</CardTitle>
+          <CardDescription>{editingId ? 'Update your group details.' : 'Start a new study group for collaboration.'}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">Group Name</label>
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2 bg-background text-foreground dark:bg-zinc-800 dark:text-white"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Group Description</label>
+              <input
+                type="text"
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                className="w-full border rounded px-4 py-2 bg-background text-foreground dark:bg-zinc-800 dark:text-white"
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button type="submit" disabled={loading} className="w-32">
+                {editingId ? (loading ? 'Updating...' : 'Update') : (loading ? 'Creating...' : 'Create Group')}
+              </Button>
+              {editingId && (
+                <Button type="button" variant="secondary" onClick={handleCancelEdit} className="w-32">Cancel</Button>
+              )}
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+      <Card className="w-[90%] max-w-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl">
+        <CardHeader>
+          <CardTitle>All Groups</CardTitle>
+          <CardDescription>Browse, join, or manage study groups.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {groups.length === 0 ? (
+            <p className="text-muted-foreground">No groups yet.</p>
+          ) : (
+            <ul className="space-y-6">
+              {groups.map((g) => (
+                <li key={g.id} className="border-b pb-4 last:border-b-0">
+                  <div className="font-semibold text-lg">{g.name}</div>
+                  <div className="mb-2 text-muted-foreground">{g.description}</div>
+                  {groupMembers[g.id] && (
+                    <div className="text-xs text-muted-foreground mb-2">
+                      <span className="font-medium">Members:</span> {groupMembers[g.id].map(m => m.username).join(', ')}
+                    </div>
+                  )}
+                  {user && user.id === g.creator_id && (
+                    <div className="flex flex-wrap gap-2 items-center mt-2">
+                      <span className="text-green-700 dark:text-green-400 font-semibold">You are the creator</span>
+                      <Button variant="outline" size="sm" onClick={() => handleEdit(g)}>Edit</Button>
+                      <Button variant="destructive" size="sm" onClick={() => handleDelete(g.id, true)}>Delete</Button>
+                    </div>
+                  )}
+                  {user && user.id !== g.creator_id && isMember(g) && (
+                    <div className="flex flex-wrap gap-2 items-center mt-2">
+                      <span className="text-green-700 dark:text-green-400 font-semibold">You are a member</span>
+                      <Button variant="secondary" size="sm" onClick={() => handleDelete(g.id, false)}>Leave</Button>
+                    </div>
+                  )}
+                  {user && !isMember(g) && (
+                    <Button variant="default" size="sm" onClick={() => handleJoin(g.id)} className="mt-2">Join</Button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
 export default Groups;
