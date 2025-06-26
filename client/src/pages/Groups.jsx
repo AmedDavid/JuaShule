@@ -130,32 +130,32 @@ function Groups() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat dark:bg-black/80" style={{ backgroundImage: "url('/image/groups.jpg')" }}>
-      <Card className="w-[90%] max-w-2xl mb-8 bg-white/90 dark:bg-zinc-900/90 shadow-xl">
+      <Card className="w-[95%] max-w-2xl mb-8 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-lg rounded-2xl p-8">
         <CardHeader>
-          <CardTitle>{editingId ? 'Edit Group' : 'Create a Group'}</CardTitle>
-          <CardDescription>{editingId ? 'Update your group details.' : 'Start a new study group for collaboration.'}</CardDescription>
+          <CardTitle className="text-zinc-800 dark:text-zinc-100">{editingId ? 'Edit Group' : 'Create a Group'}</CardTitle>
+          <CardDescription className="text-zinc-500 dark:text-zinc-400">{editingId ? 'Update your group details.' : 'Start a new study group for collaboration.'}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium mb-1">Group Name</label>
+              <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-200">Group Name</label>
               <input
                 type="text"
                 name="name"
                 value={form.name}
                 onChange={handleChange}
-                className="w-full border rounded px-4 py-2 bg-background text-foreground dark:bg-zinc-800 dark:text-white"
+                className="w-full border border-zinc-200 dark:border-zinc-700 rounded-lg px-4 py-2 bg-zinc-100 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-primary"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Group Description</label>
+              <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-200">Group Description</label>
               <input
                 type="text"
                 name="description"
                 value={form.description}
                 onChange={handleChange}
-                className="w-full border rounded px-4 py-2 bg-background text-foreground dark:bg-zinc-800 dark:text-white"
+                className="w-full border border-zinc-200 dark:border-zinc-700 rounded-lg px-4 py-2 bg-zinc-100 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <div className="flex gap-2">
@@ -169,22 +169,22 @@ function Groups() {
           </form>
         </CardContent>
       </Card>
-      <Card className="w-[90%] max-w-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl">
+      <Card className="w-[95%] max-w-2xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-lg rounded-2xl p-8">
         <CardHeader>
-          <CardTitle>All Groups</CardTitle>
-          <CardDescription>Browse, join, or manage study groups.</CardDescription>
+          <CardTitle className="text-zinc-800 dark:text-zinc-100">All Groups</CardTitle>
+          <CardDescription className="text-zinc-500 dark:text-zinc-400">Browse, join, or manage study groups.</CardDescription>
         </CardHeader>
         <CardContent>
           {groups.length === 0 ? (
-            <p className="text-muted-foreground">No groups yet.</p>
+            <p className="text-zinc-500 dark:text-zinc-400">No groups yet.</p>
           ) : (
             <ul className="space-y-6">
               {groups.map((g) => (
-                <li key={g.id} className="border-b pb-4 last:border-b-0">
-                  <div className="font-semibold text-lg">{g.name}</div>
-                  <div className="mb-2 text-muted-foreground">{g.description}</div>
+                <li key={g.id} className="border-b border-zinc-100 dark:border-zinc-700 pb-4 last:border-b-0">
+                  <div className="font-semibold text-lg text-zinc-800 dark:text-zinc-100">{g.name}</div>
+                  <div className="mb-2 text-zinc-500 dark:text-zinc-400">{g.description}</div>
                   {groupMembers[g.id] && (
-                    <div className="text-xs text-muted-foreground mb-2">
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400 mb-2">
                       <span className="font-medium">Members:</span> {groupMembers[g.id].map(m => m.username).join(', ')}
                     </div>
                   )}

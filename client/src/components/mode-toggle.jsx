@@ -1,6 +1,11 @@
 import * as React from "react"
-import { Moon, Sun } from "lucide-react"
-import { Button } from "./ui/button"
+import { Moon, Sun, Laptop } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu"
 
 // Helper to get/set theme
 function getInitialTheme() {
@@ -16,33 +21,60 @@ export default function ModeToggle() {
 
   React.useEffect(() => {
     document.documentElement.classList.remove('light', 'dark');
-    document.documentElement.classList.add(theme);
+    if (theme === 'system') {
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.classList.add(systemDark ? 'dark' : 'light');
+    } else {
+      document.documentElement.classList.add(theme);
+    }
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  // Listen to system theme changes if 'system' is selected
+  React.useEffect(() => {
+    if (theme !== 'system') return;
+    const handler = (e) => {
+      document.documentElement.classList.remove('light', 'dark');
+      document.documentElement.classList.add(e.matches ? 'dark' : 'light');
+    };
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, [theme]);
+
+  const icon =
+    theme === 'light' ? <Sun className="h-5 w-5 text-zinc-700" /> :
+    theme === 'dark' ? <Moon className="h-5 w-5 text-white" /> :
+    <Laptop className="h-5 w-5 text-zinc-700 dark:text-white" />;
+
   return (
-    <div className="relative">
-      <Button
-        variant="outline"
-        size="icon"
-        aria-label="Toggle theme"
-        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      >
-        <Sun
-          className={
-            "h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all " +
-            (theme === 'dark' ? 'dark:-rotate-90 dark:scale-0' : '')
-          }
-        />
-        <Moon
-          className={
-            "absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all " +
-            (theme === 'dark' ? 'dark:rotate-0 dark:scale-100' : '')
-          }
-        />
-        <span className="sr-only">Toggle theme</span>
-      </Button>
-      {/* Dropdown for system/light/dark can be added here if needed */}
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          aria-label="Toggle theme"
+          className="rounded-md border border-transparent bg-white/80 dark:bg-zinc-800/80 p-2 shadow-sm hover:bg-zinc-100 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary transition-colors flex items-center justify-center w-9 h-9"
+        >
+          {icon}
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-40">
+        <DropdownMenuItem onClick={() => setTheme('light')}>
+          <Sun className="mr-2 h-4 w-4 text-zinc-700" />
+          Light
+          {theme === 'light' && <span className="ml-auto">✓</span>}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme('dark')}>
+          <Moon className="mr-2 h-4 w-4 text-white" />
+          Dark
+          {theme === 'dark' && <span className="ml-auto">✓</span>}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme('system')}>
+          <Laptop className="mr-2 h-4 w-4 text-zinc-700 dark:text-white" />
+          System
+          {theme === 'system' && <span className="ml-auto">✓</span>}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
