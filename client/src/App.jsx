@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ResetPassword from './pages/ResetPassword';
+import ResetPasswordToken from './pages/ResetPasswordToken';
 import Profile from './pages/Profile';
 import Questions from './pages/Questions';
 import Resources from './pages/Resources';
@@ -28,6 +29,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/resetpassword" element={<ResetPassword />} />
+              <Route path="/reset-password" element={<ResetPasswordToken />} />
               <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               <Route path="/questions" element={<ProtectedRoute><Questions /></ProtectedRoute>} />
               <Route path="/resources" element={<ProtectedRoute><Resources /></ProtectedRoute>} />

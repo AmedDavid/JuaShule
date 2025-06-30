@@ -9,6 +9,9 @@ import uuid
 
 bp = Blueprint('profiles', __name__, url_prefix='/api/profile')
 
+# In-memory store for reset tokens
+reset_tokens = {}
+
 @bp.route('', methods=['GET'])
 @jwt_required()
 def get_profile():
@@ -108,23 +111,42 @@ def reset_password_request():
             return jsonify({'error': 'No account found with that email'}), 404
         # Generate a reset token (using UUID for simplicity; in production, use JWT with expiration)
         reset_token = str(uuid.uuid4())
+        reset_tokens[reset_token] = student.id  # Store token with user id
         logging.info(f"Generated reset token {reset_token} for user {student.id}")
         # Send reset email
         msg = Message('Password Reset Request', sender='davidwize189@gmail.com', recipients=[email])
-        msg.body = f"""Dear {student.username},
-
-You requested a password reset. Please click the link below to reset your password:
-https://jua-shule.vercel.app/reset-password?token={reset_token}
-
-If you did not request this, please ignore this email.
-
-Best,
-JuaShule Team
-"""
+        msg.body = f"""Dear {student.username},\n\nYou requested a password reset. Please click the link below to reset your password:\nhttps://jua-shule.vercel.app/reset-password?token={reset_token}\n\nIf you did not request this, please ignore this email.\n\nBest,\nJuaShule Team\n"""
         mail.send(msg)
         logging.info(f"Reset email sent to {email} for user {student.id}")
         return jsonify({'message': 'Password reset email sent'}), 200
     except Exception as e:
         logging.error(f"Failed to process password reset for email {data.get('email')}: {str(e)}", exc_info=True)
         return jsonify({'error': f'Failed to process password reset: {str(e)}'}), 500
+
+@bp.route('/reset-password/confirm', methods=['POST'])
+def reset_password_confirm():
+    try:
+        data = request.get_json()
+        token = data.get('token')
+        new_password = data.get('password')
+        if not token or not new_password:
+            return jsonify({'error': 'Token and new password are required'}), 400
+        user_id = reset_tokens.get(token)
+        if not user_id:
+            return jsonify({'error': 'Invalid or expired token'}), 400
+        student = Student.query.get(user_id)
+        if not student:
+            return jsonify({'error': 'User not found'}), 404
+        if len(new_password) < 6:
+            return jsonify({'error': 'Password must be at least 6 characters'}), 400
+        student.set_password(new_password)
+        db.session.commit()
+        # Invalidate token
+        del reset_tokens[token]
+        logging.info(f"Password reset for user {student.id} via token")
+        return jsonify({'message': 'Password has been reset successfully'}), 200
+    except Exception as e:
+        db.session.rollback()
+        logging.error(f"Failed to reset password via token: {str(e)}", exc_info=True)
+        return jsonify({'error': f'Failed to reset password: {str(e)}'}), 500
     
