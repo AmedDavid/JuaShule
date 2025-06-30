@@ -6,6 +6,7 @@ A peer-to-peer learning platform for students to share study resources, ask acad
 
 ## Table of Contents
 - [Project Overview](#project-overview)
+- [Technologies Used](#technologies-used)
 - [Team & Collaboration](#team--collaboration)
 - [Project Structure](#project-structure)
 - [Setup Instructions](#setup-instructions)
@@ -19,6 +20,40 @@ A peer-to-peer learning platform for students to share study resources, ask acad
 
 ## Project Overview
 JuaShule is designed to help students collaborate, share resources, ask questions, and join study groups. The platform consists of a React frontend and a Flask backend, with PostgreSQL for data storage.
+
+---
+
+## Technologies Used
+
+### Backend (API)
+- **Python 3.10+**
+- **Flask** – Web framework for building the REST API
+- **Flask-JWT-Extended** – JWT-based authentication for secure endpoints
+- **Flask-Mail** – Sending password reset and notification emails
+- **Flask-Migrate / Alembic** – Database migrations
+- **SQLAlchemy** – ORM for database models and queries
+- **PostgreSQL** – Relational database for persistent storage
+- **Werkzeug** – Password hashing and security utilities
+- **Gunicorn** – WSGI HTTP server for production deployment
+
+### Frontend (Client)
+- **React** – JavaScript library for building user interfaces
+- **Vite** – Fast development server and build tool for React
+- **React Router** – Client-side routing for SPA navigation
+- **Tailwind CSS** – Utility-first CSS framework for styling
+- **Radix UI** – Accessible UI primitives (e.g., dropdowns, toasts)
+- **Axios** – HTTP client for making API requests
+
+### DevOps & Tooling
+- **Git & GitHub** – Version control and collaboration
+- **Vercel** – Frontend deployment (React app)
+- **Render** – Backend deployment (Flask API)
+- **Postman** – API testing and documentation
+- **dotenv** – Environment variable management
+
+### Other
+- **JWT (JSON Web Tokens)** – For secure authentication and session management
+- **Email (SMTP)** – For password reset and notifications
 
 ---
 
