@@ -19,7 +19,14 @@ A peer-to-peer learning platform for students to share study resources, ask acad
 ---
 
 ## Project Overview
-JuaShule is designed to help students collaborate, share resources, ask questions, and join study groups. The platform consists of a React frontend and a Flask backend, with PostgreSQL for data storage.
+
+### Problem Statement
+Many secondary and college students, especially in rural areas, face challenges accessing affordable tutoring and quality study materials. Limited internet access, high costs of private tutors, and scarcity of resources like past papers or revision notes hinder academic success. Students often rely on informal peer networks to share knowledge, but these lack structure and accessibility, leaving many without adequate support. There's a need for a student-driven platform that facilitates peer-to-peer learning, resource sharing, and collaborative study in a way that's accessible and tailored to Kenya's education system.
+
+### Solution
+JuaShule is a peer-to-peer learning platform for secondary and college students to share study resources, ask academic questions, and connect with peers for group study. It tackles the challenge of limited access to affordable tutoring and study materials, especially in rural areas, by creating a student-driven knowledge-sharing community tailored to Kenya's education system.
+
+The platform consists of a React frontend and a Flask backend, with PostgreSQL for data storage.
 
 ---
 
