@@ -1,0 +1,105 @@
+1. Users (Students)
+[
+  {
+    "username": "testuser1",
+    "email": "test1@example.com",
+    "password": "Test@1234",
+    "school": "Green Valley"
+  },
+  {
+    "username": "testuser2",
+    "email": "test2@example.com",
+    "password": "Test@1234",
+    "school": "Blue Ridge"
+  },
+  {
+    "username": "rochelle",
+    "email": "rochelle@school.com",
+    "password": "Test@1234",
+    "school": "Sunrise Academy"
+  },
+  {
+    "username": "david",
+    "email": "david@school.com",
+    "password": "Test@1234",
+    "school": "Hilltop School"
+  }
+]
+
+===========================
+
+2. Resources
+[
+  {
+    "title": "Math Notes",
+    "file_url": "https://example.com/resources/math.pdf",
+    "owner_email": "test1@example.com"
+  },
+  {
+    "title": "Chemistry Past Paper",
+    "file_url": "http://lindimc.go.tz/storage/app/media/uploaded-files/Chemistry%20full%20notes.pdf",
+    "owner_email": "test2@example.com"
+  },
+  {
+    "title": "Kiswahili Insha",
+    "file_url": "https://example.com/resources/insha.pdf",
+    "owner_email": "rochelle@school.com"
+  },
+  {
+    "title": "Science Revision",
+    "file_url": "https://example.com/resources/science.pdf",
+    "owner_email": "david@school.com"
+  }
+]
+
+==================================
+
+3. Questions
+[
+  {
+    "title": "Quadratic Equations",
+    "content": "How do I solve x² + 5x + 6 = 0?",
+    "owner_email": "test1@example.com"
+  },
+  {
+    "title": "Mitosis vs Meiosis",
+    "content": "What’s the difference between mitosis and meiosis?",
+    "owner_email": "test2@example.com"
+  },
+  {
+    "title": "Good Kiswahili Insha",
+    "content": "Tips for writing a good Kiswahili Insha?",
+    "owner_email": "rochelle@school.com"
+  },
+  {
+    "title": "Science Project Ideas",
+    "content": "Any ideas for a simple science project?",
+    "owner_email": "david@school.com"
+  }
+]
+
+==================================
+
+4. Groups
+[
+  {
+    "name": "Math Study Group",
+    "description": "For discussing math problems",
+    "created_by_email": "test1@example.com"
+  },
+  {
+    "name": "Chemistry Circle",
+    "description": "Chemistry revision and Q&A",
+    "created_by_email": "test2@example.com"
+  },
+  {
+    "name": "Kiswahili Writers",
+    "description": "Practice and share Insha",
+    "created_by_email": "rochelle@school.com"
+  },
+  {
+    "name": "Science Club",
+    "description": "Science projects and discussions",
+    "created_by_email": "david@school.com"
+  }
+]
