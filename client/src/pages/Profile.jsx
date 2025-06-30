@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useMessage } from '../context/MessageContext';
 import api from '../utils/api';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card';
+import { Button } from '../components/ui/button';
 
 function Profile() {
   const { user } = useAuth();
@@ -37,59 +39,59 @@ function Profile() {
     }
   };
 
-   return (
-  <div
-  className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
-  style={{ backgroundImage: "url('/image/profile.jpg')" }}
->
-    <div className="bg-white p-10 rounded-2xl shadow-lg  w-[85%] max-w-4xl">
-      <h2 className="text-2xl font-bold mb-6 ">Profile</h2>
-        <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-1">Username</label>
-            <input
-              type="text"
-              name="username"
-              value={form.username}
-              onChange={handleChange}
-              className="w-full border rounded px-4 py-2"
-              required
-            />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-1">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full border rounded px-4 py-2"
-              required
-            />
-        </div>
-          <div className="mb-6">
-          <label className="block text-gray-700 mb-1">School</label>
-            <input
-              type="text"
-              name="school"
-              value={form.school}
-              onChange={handleChange}
-              className="w-full border rounded px-4 py-2"
-              required
-            />
-        </div>
-        <div className="flex justify-center">
-            <button
-              type="submit"
-              className="w-[30%] bg-primary  text-white text-center py-2 rounded"
-              disabled={loading}
-            >
-              {loading ? 'Updating...' : 'Update Profile'}
-        </button>
-       </div>
-      </form>
+  return (
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat dark:bg-black/80"
+      style={{ backgroundImage: "url('/image/profile.jpg')" }}
+    >
+      <Card className="w-[90%] max-w-3xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-xl rounded-2xl p-8">
+        <CardHeader>
+          <CardTitle className="text-zinc-800 dark:text-zinc-100">Profile</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-200">Username</label>
+              <input
+                type="text"
+                name="username"
+                value={form.username}
+                onChange={handleChange}
+                className="w-full border border-zinc-200 dark:border-zinc-700 rounded-lg px-4 py-2 bg-zinc-100 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-200">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full border border-zinc-200 dark:border-zinc-700 rounded-lg px-4 py-2 bg-zinc-100 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-200">School</label>
+              <input
+                type="text"
+                name="school"
+                value={form.school}
+                onChange={handleChange}
+                className="w-full border border-zinc-200 dark:border-zinc-700 rounded-lg px-4 py-2 bg-zinc-100 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+            <div className="flex justify-center">
+              <Button type="submit" disabled={loading} className="w-40">
+                {loading ? 'Updating...' : 'Update Profile'}
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
-  </div>
-);
+  );
 }
 export default Profile;
