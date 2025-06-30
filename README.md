@@ -2,15 +2,46 @@
 
 A peer-to-peer learning platform for students to share study resources, ask academic questions, and connect for group study.
 
+---
+
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Team & Collaboration](#team--collaboration)
+- [Project Structure](#project-structure)
+- [Setup Instructions](#setup-instructions)
+- [Development Workflow](#development-workflow)
+- [Major Issues & How We Solved Them](#major-issues--how-we-solved-them)
+- [Key Features](#key-features)
+- [Branching & Collaboration History](#branching--collaboration-history)
+- [License](#license)
+
+---
+
+## Project Overview
+JuaShule is designed to help students collaborate, share resources, ask questions, and join study groups. The platform consists of a React frontend and a Flask backend, with PostgreSQL for data storage.
+
+---
+
+## Team & Collaboration
+**Contributors:**
+- David Amedi (Backend, Frontend, DevOps)
+- Rochelle Owor (Frontend, Backend, UI/UX)
+
+We worked in parallel on different features, regularly merging our work and resolving conflicts together. Our collaboration was tracked via feature branches and pull requests.
+
+---
+
 ## Project Structure
 ```
 juashule/
 ├── client/          # React frontend
 ├── server/          # Flask backend
-├── .gitignore
+├── docummentation/  # Documentation and API collections
 ├── LICENSE
 └── README.md
 ```
+
+---
 
 ## Setup Instructions
 
@@ -26,8 +57,7 @@ juashule/
 3. Create a virtual environment: `python -m venv venv`
 4. Activate it: `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows)
 5. Install dependencies: `pip install -r requirements.txt`
-   ```
-
+6. Set up environment variables as needed.
 7. Initialize the database: `flask db upgrade`
 8. Run the server: `flask run`
 
@@ -40,7 +70,65 @@ juashule/
    ```
 4. Run the app: `npm run dev`
 
+---
 
+## Development Workflow
+- We used feature branches for all major features and bug fixes (e.g., `feature-david-server`, `feature-rochelle-server`, `ui-rochelle`, `feature-david-ui-enhancements`).
+- Pull requests were used for code review and merging.
+- Regular merges from `main` to feature branches to minimize conflicts.
+
+---
+
+## Major Issues & How We Solved Them
+
+### 1. Password Reset Flow (404 Error)
+- **Issue:** Clicking the password reset link in the email led to a 404 error.
+- **Solution:** 
+  - Added a dedicated `/reset-password` route in the frontend to handle token-based password resets.
+  - Implemented a backend endpoint `/api/profile/reset-password/confirm` to accept the token and new password, validate, and update the user's password.
+  - Ensured the email link matches the frontend route.
+
+### 2. Frontend/Backend Integration
+- **Issue:** API endpoints and frontend routes were sometimes mismatched (e.g., `/resetpassword` vs `/reset-password`).
+- **Solution:** Standardized route naming and updated both frontend and backend to use consistent paths.
+
+### 3. Database Configuration
+- **Issue:** Switching between local and production databases caused confusion.
+- **Solution:** Updated configuration files to clearly separate local and production settings, and documented the process in the README.
+
+### 4. UI/UX Consistency
+- **Issue:** Different team members had different UI styles.
+- **Solution:** Refactored components to use shared UI libraries (Radix UI, Tailwind CSS), and reviewed each other's PRs for consistency.
+
+### 5. Token Storage for Password Reset
+- **Issue:** Securely storing and invalidating password reset tokens.
+- **Solution:** Used an in-memory store for tokens during development, with a note to use a persistent store (DB or cache) in production.
+
+---
+
+## Key Features
+- User authentication (signup, login, JWT-based sessions)
+- Password reset via email with secure token
+- Profile management
+- Resource sharing (upload, edit, delete)
+- Question and answer forum
+- Study group creation and management
+- Responsive, modern UI with dark mode
+
+---
+
+## Branching & Collaboration History
+- **David Amedi:** Focused on backend API, authentication, password reset, and initial frontend integration.
+- **Rochelle Owor:** Led UI/UX improvements, resource and group pages, and contributed to backend features.
+- **Feature branches:** 
+  - `feature-david-server`, `feature-rochelle-server`, `feature-david-ui-enhancements`, `ui-rochelle`, `ui-rochelle-auth`, `setup-postgres-rochelle`, etc.
+- **Merges:** Regularly merged feature branches into `main` after code review and testing.
+
+---
 
 ## License
 MIT License
+
+---
+
+**This README reflects our journey, the issues we faced, and how we solved them together as a team.**
